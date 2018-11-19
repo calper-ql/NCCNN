@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 from client import *
+from Util import *
 
 def sliding_axis_test(axis_size, stride, size):
     value = ((axis_size // stride) * stride + size) - axis_size 
@@ -68,24 +69,6 @@ def shifted_reconstruct(extracted):
         for j in range(extracted.shape[1]):
             set_extract([i, j])
     return r
-
-def draw_point(image, point, color=[0, 255, 0], radius=5):
-    image = cv2.circle(image, center=(
-                int(point[1]*image.shape[1]), 
-                int(point[0]*image.shape[0])
-            ), 
-            radius=radius, color=color, thickness=-1)
-    return image
-
-def draw_coordinate_map(image, coordinate_map, color=[0, 255, 0], radius=5):
-    temp = image.copy()
-    for i in range(coordinate_map.shape[0]):
-        for j in range(coordinate_map.shape[1]):
-            temp = draw_point(temp, (
-                coordinate_map[i][j][0], 
-                coordinate_map[i][j][1]
-            ), color, radius)
-    return temp
 
 if __name__ == '__main__':
     s = OIDClient('192.168.1.31', 33333)
