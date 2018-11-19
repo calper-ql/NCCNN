@@ -8,7 +8,7 @@ train_image_codec = ld['train codec']
 print(len(train_image_codec.keys()))
 #print(train_image_codec[list(train_image_codec.keys())[0]])
 
-client = OIDClient('192.168.1.31', 33333)
+client = OIDClient('75.143.54.132', 33333)
 X, Y, image, cmap = label_image('f4d07a53ade71fea', train_image_codec, ld['class names'], client, 100, 200)
 print(X.shape)
 print(Y.shape)
