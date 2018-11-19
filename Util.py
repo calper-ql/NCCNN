@@ -1,6 +1,11 @@
 import numpy as np
 import cv2
+import IPython
 
+def imshow(img):
+    from PIL import Image
+    IPython.display.display(Image.fromarray(img))
+    
 def draw_point(image, point, color=[0, 255, 0], radius=5):
     image = cv2.circle(image, center=(
                 int(point[1]*image.shape[1]), 
@@ -43,7 +48,6 @@ def draw_from_label(image, label, cmap):
         for j in range(Y.shape[1]):
             for c in range(Y.shape[2]):
                 if Y[i, j, c][0] > -1.0:
-                    print([Y[i, j, c][1], Y[i, j, c][3]])
                     image = center_rectangle(image,
                         [cmap[i, j, 0] + Y[i, j, c][1], 
                         cmap[i, j, 1] +  Y[i, j, c][3]],
