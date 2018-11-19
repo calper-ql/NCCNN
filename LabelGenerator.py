@@ -15,7 +15,7 @@ def label_image(image_id, codec, encodings, image_client, stride, size):
     index_encoding = {}
     count = 0
     for key in encodings:
-        index_encoding['key'] = count
+        index_encoding[key] = count
         count += 1
     
     extracted, cmap = sliding_window(image, stride, size)
@@ -38,7 +38,6 @@ def label_image(image_id, codec, encodings, image_client, stride, size):
         for patch_id in range(np_label.shape[0]):
             if cmap[patch_id][1] >= y_center - y_size and cmap[patch_id][1] <= y_center + y_size:
                 if cmap[patch_id][0] >= x_center - x_size and cmap[patch_id][0] <= x_center + x_size:
-                    print('adding label')
                     np_label[patch_id][index_encoding[label[1]]][0] = 1.0
                     np_label[patch_id][index_encoding[label[1]]][1] = cmap[patch_id][1]-x_center
                     np_label[patch_id][index_encoding[label[1]]][2] = x_size

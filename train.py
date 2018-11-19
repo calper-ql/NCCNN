@@ -18,7 +18,7 @@ for i in range(Y.shape[0]):
         for c in range(Y.shape[2]):
             if Y[i, j, c][0] > -1.0:
                 print([Y[i, j, c][1], Y[i, j, c][3]])
-                image = draw_point(image, [Y[i, j, c][1], Y[i, j, c][3]])
+                image = draw_point(image, [cmap[i, j, 1] + Y[i, j, c][1], cmap[i, j, 0] +  Y[i, j, c][3]])
 
 while True:
     cv2.imshow('window1', image)
