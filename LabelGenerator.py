@@ -33,8 +33,6 @@ def label_image(image_id, codec, encodings, image_client, stride, size):
         y_center = float(label[5]) + y_size/2
         y_size = y_size/2
 
-        print('center', x_center, y_center, x_size, y_size)
-
         for patch_id in range(np_label.shape[0]):
             if cmap[patch_id][1] >= y_center - y_size and cmap[patch_id][1] <= y_center + y_size:
                 if cmap[patch_id][0] >= x_center - x_size and cmap[patch_id][0] <= x_center + x_size:
