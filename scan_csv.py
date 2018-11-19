@@ -34,7 +34,7 @@ def save_dicts(lod):
 			pickle.dump(lib, output, pickle.HIGHEST_PROTOCOL)
 		except:
 			print("\nCould not save object!")
-			exit(0)	
+			exit(1)	
 	print("\nPickle complete!")
 
 # retrieves pickled object and returns it
