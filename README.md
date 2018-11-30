@@ -6,7 +6,7 @@ Skip to [How to Run](#How-to-Run) Guide
 ## About this project
 
 Combines K-Nearest Neighbors and Convolutional Neural Network techniques to create a collaborative network
-of neurons. The data sets used in this project are linked in the [Data section](#Data) below.
+of neurons. (LOL yeah this is mainly just filler; sorry if it's repetitive and wrong) The data sets used in this project are linked in the [Data section](#Data) below.
 
 ### Methodology
 
