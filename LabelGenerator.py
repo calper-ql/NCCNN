@@ -33,15 +33,13 @@ def label_image(image_id, codec, encodings, image_client, stride, size):
         y_center = float(label[5]) + y_size/2
         y_size = y_size/2
 
-        print('center', x_center, y_center, x_size, y_size)
-
         for patch_id in range(np_label.shape[0]):
-            if cmap[patch_id][1] >= y_center - y_size and cmap[patch_id][1] <= y_center + y_size:
-                if cmap[patch_id][0] >= x_center - x_size and cmap[patch_id][0] <= x_center + x_size:
+            if cmap[patch_id][1]+(size/2)/image.shape[1] >= y_center - y_size and cmap[patch_id][1]-(size/2)/image.shape[1] <= y_center + y_size:
+                if cmap[patch_id][0]+(size/2)/image.shape[0] >= x_center - x_size and cmap[patch_id][0]-(size/2)/image.shape[0] <= x_center + x_size:
                     np_label[patch_id][index_encoding[label[1]]][0] = 1.0
-                    np_label[patch_id][index_encoding[label[1]]][1] = cmap[patch_id][1]-x_center
+                    np_label[patch_id][index_encoding[label[1]]][1] = x_center - cmap[patch_id][0]
                     np_label[patch_id][index_encoding[label[1]]][2] = x_size
-                    np_label[patch_id][index_encoding[label[1]]][3] = cmap[patch_id][0]-y_center
+                    np_label[patch_id][index_encoding[label[1]]][3] = y_center - cmap[patch_id][1]
                     np_label[patch_id][index_encoding[label[1]]][4] = y_size
     np_label = np.reshape(np_label, [extracted.shape[0], extracted.shape[1], count, 5])
     return extracted, np_label, image, cmap_orig
