@@ -3,6 +3,8 @@ Neighboring Collaborative Convolutional Neural Networks
 
 Skip to [How to Run](#How-to-Run) Guide
 
+See our proposal for this project [here](docs/NCCNNproposal.pdf)
+
 ## About this project
 
 Combines K-Nearest Neighbors and Convolutional Neural Network techniques to create a collaborative network
