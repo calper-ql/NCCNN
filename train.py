@@ -14,9 +14,13 @@ X, Y, image, cmap = label_image('f4d07a53ade71fea',
     train_image_codec, ld['class names'], client, 45, 50)
 print(X.shape)
 print(Y.shape)
+print(len(ld['class names']))
+print(train_image_codec['f4d07a53ade71fea'])
 
 img1 = draw_from_label(image, Y, cmap)
 img2 = draw_from_raw_labels(image, train_image_codec['f4d07a53ade71fea'])
+
+print(ld.keys())
 
 while True:
     cv2.imshow('window1', img1)
