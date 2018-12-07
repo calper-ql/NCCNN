@@ -42,16 +42,20 @@ def generate_color_from_categories(categories):
         generated_colors[list(categories.keys())[i]] = [int(col[0]), int(col[1]), int(col[2])]#[random.randint(100, 255), random.randint(100, 255), random.randint(100, 255)]
     return generated_colors
 
-def draw_from_label(image, label, cmap, size, category_colors, confidence_treshold=0.0, draw_patches=False, thickness=1):
+def draw_from_label(image, label, cmap, size, category_colors, confidence_treshold=0.0, draw_patches=False, thickness=1, max_count=100):
     image = image.copy()
     Y = label.copy()
     x_ratio = size/image.shape[1]
     y_ratio = size/image.shape[0]
+    count = 0
 
     for i in range(Y.shape[0]):
         for j in range(Y.shape[1]):
             for c in range(Y.shape[2]):
                 if Y[i, j, c][0] > confidence_treshold:
+                    count +=1
+                    if count >= max_count:
+                        break
                     if draw_patches:
                         image = center_rectangle(image,
                         [cmap[i, j, 0], 
