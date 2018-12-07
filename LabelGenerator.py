@@ -1,7 +1,7 @@
 from FastSlidingWindow import *
 from client import OIDClient
 
-def label_image(image_id, codec, encodings, image_client, stride, size):
+def label_image(image_id, codec, encodings, image_client, stride, size, overlap_ratio=1.0):
     if image_id not in codec:
         #print('Image id not in codec')
         return None, None, None, None
@@ -26,19 +26,28 @@ def label_image(image_id, codec, encodings, image_client, stride, size):
     
     x_ratio = image.shape[1]/size
     y_ratio = image.shape[0]/size
-
+    
+    o_r = overlap_ratio
+    
     for label in label_list:
         x_size = float(label[4]) - float(label[3])
+        if x_size > 0.7:
+            return None, None, None, None
         x_center = float(label[3]) + x_size/2
         x_size = x_size/2
 
         y_size = float(label[6]) - float(label[5])
+        if y_size > 0.7:
+            return None, None, None, None
         y_center = float(label[5]) + y_size/2
         y_size = y_size/2
+        
+        if float(label[9]) > 0.5:
+            return None, None, None, None
 
         for patch_id in range(np_label.shape[0]):
-            if cmap[patch_id][1]+(size/2)/image.shape[1] >= y_center - y_size and cmap[patch_id][1]-(size/2)/image.shape[1] <= y_center + y_size:
-                if cmap[patch_id][0]+(size/2)/image.shape[0] >= x_center - x_size and cmap[patch_id][0]-(size/2)/image.shape[0] <= x_center + x_size:
+            if cmap[patch_id][1]+(size/2)/image.shape[1] >= y_center - (y_size*o_r) and cmap[patch_id][1]-(size/2)/image.shape[1] <= y_center + (y_size*o_r):
+                if cmap[patch_id][0]+(size/2)/image.shape[0] >= x_center - (x_size*o_r) and cmap[patch_id][0]-(size/2)/image.shape[0] <= x_center + (x_size*o_r):
                     np_label[patch_id][index_encoding[label[1]]][0] = 1.0
                     np_label[patch_id][index_encoding[label[1]]][1] = (x_center - cmap[patch_id][0]) * x_ratio
                     np_label[patch_id][index_encoding[label[1]]][2] = x_size * x_ratio
