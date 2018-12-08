@@ -2,6 +2,7 @@ import json
 import cv2
 from FastSlidingWindow import *
 from Util import *
+import math
 
 class BBD100K_Loader:
     def __init__(self, is_train):
@@ -52,6 +53,8 @@ class BBD100K_Loader:
 
         x_ratio = image.shape[1]/size
         y_ratio = image.shape[0]/size
+        
+        distances = np.ones([extracted.shape[0] * extracted.shape[1], count, 1]) * np.inf
 
         for label in self.raw_data[index]['labels']:
             if label['category'] != 'drivable area' and label['category'] != 'lane':
@@ -78,11 +81,16 @@ class BBD100K_Loader:
                 for patch_id in range(np_label.shape[0]):
                     if cmap[patch_id][1]+(size/2)/image.shape[1] >= y_center - (y_size*o_r) and cmap[patch_id][1]-(size/2)/image.shape[1] <= y_center + (y_size*o_r):
                         if cmap[patch_id][0]+(size/2)/image.shape[0] >= x_center - (x_size*o_r) and cmap[patch_id][0]-(size/2)/image.shape[0] <= x_center + (x_size*o_r):
-                            np_label[patch_id][index_encoding[label['category']]][0] = 1.0
-                            np_label[patch_id][index_encoding[label['category']]][1] = (x_center - cmap[patch_id][0]) * x_ratio
-                            np_label[patch_id][index_encoding[label['category']]][2] = x_size * x_ratio
-                            np_label[patch_id][index_encoding[label['category']]][3] = (y_center - cmap[patch_id][1]) * y_ratio
-                            np_label[patch_id][index_encoding[label['category']]][4] = y_size * y_ratio
+                            y_diff = (cmap[patch_id][1]+(size/2)/image.shape[1]) - y_center
+                            x_diff = (cmap[patch_id][0]+(size/2)/image.shape[0]) - x_center
+                            euc = x_diff*x_diff + y_diff*y_diff
+                            if distances[patch_id][index_encoding[label['category']]][0] > euc:
+                                distances[patch_id][index_encoding[label['category']]][0] = euc
+                                np_label[patch_id][index_encoding[label['category']]][0] = 1.0
+                                np_label[patch_id][index_encoding[label['category']]][1] = (x_center - cmap[patch_id][0]) * x_ratio
+                                np_label[patch_id][index_encoding[label['category']]][2] = x_size * x_ratio
+                                np_label[patch_id][index_encoding[label['category']]][3] = (y_center - cmap[patch_id][1]) * y_ratio
+                                np_label[patch_id][index_encoding[label['category']]][4] = y_size * y_ratio
         np_label = np.reshape(np_label, [extracted.shape[0], extracted.shape[1], count, 5])
         return extracted, np_label, image, cmap_orig
         
@@ -92,10 +100,10 @@ class BBD100K_Loader:
 if __name__ == "__main__":
     loader = BBD100K_Loader(True)
     color_map = generate_color_from_categories(loader.category_dict)
-    for i in range(100):
-        X, Y, image, cmap = loader.gather(i, 10, 10, 0.1)
+    for i in range(30, 31):
+        X, Y, image, cmap = loader.gather(i, 100, 150, 0.9)
         if image is not None:
             print(color_map)
-            cv2.imshow('test', draw_from_label(image, Y, cmap, 10, color_map))
-            cv2.waitKey(11)
+            cv2.imshow('test', draw_from_label(image, Y, cmap, 150, color_map))
+            cv2.waitKey()
     
