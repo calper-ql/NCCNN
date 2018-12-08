@@ -58,8 +58,8 @@ def draw_from_label(image, label, cmap, size, category_colors, confidence_tresho
                         break
                     if draw_patches:
                         image = center_rectangle(image,
-                        [cmap[i, j, 0], 
-                        cmap[i, j, 1]],
+                        [cmap[i, j, 1], 
+                        cmap[i, j, 0]],
                         [size/(2.0*image.shape[1]), 
                         size/(2.0*image.shape[0])], color=[0, 0, 255], thickness=thickness)
                     image = center_rectangle(image,
@@ -74,6 +74,16 @@ def draw_from_label(image, label, cmap, size, category_colors, confidence_tresho
                     box_coords = ((text_x, text_y), (text_x + text_width - 2, text_y - text_height-4))
                     cv2.rectangle(image, box_coords[0], box_coords[1], category_colors[list(category_colors.keys())[c]], cv2.FILLED)
                     image = cv2.putText(image, text, (text_x, text_y-2), cv2.FONT_HERSHEY_DUPLEX, 0.6, [0, 0, 0], 1, lineType=cv2.LINE_AA)
+    return image
+
+def draw_patches(image, cmap, size):
+    for i in range(cmap.shape[0]):
+        for j in range(cmap.shape[1]):
+            image = center_rectangle(image,
+                        [cmap[i, j, 1], 
+                        cmap[i, j, 0]],
+                        [size/(2.0*image.shape[1]), 
+                        size/(2.0*image.shape[0])], color=[0, 0, 255], thickness=1)
     return image
 
 def draw_from_raw_labels(image, label_list):

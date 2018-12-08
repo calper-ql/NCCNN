@@ -79,10 +79,10 @@ class BBD100K_Loader:
                 y_size = y_size/2
 
                 for patch_id in range(np_label.shape[0]):
-                    if cmap[patch_id][1]+(size/2)/image.shape[1] >= y_center - (y_size*o_r) and cmap[patch_id][1]-(size/2)/image.shape[1] <= y_center + (y_size*o_r):
-                        if cmap[patch_id][0]+(size/2)/image.shape[0] >= x_center - (x_size*o_r) and cmap[patch_id][0]-(size/2)/image.shape[0] <= x_center + (x_size*o_r):
-                            y_diff = (cmap[patch_id][1]+(size/2)/image.shape[1]) - y_center
-                            x_diff = (cmap[patch_id][0]+(size/2)/image.shape[0]) - x_center
+                    if cmap[patch_id][0]+(size/2)/image.shape[0] >= y_center - (y_size*o_r) and cmap[patch_id][0]-(size/2)/image.shape[0] <= y_center + (y_size*o_r):
+                        if cmap[patch_id][1]+(size/2)/image.shape[1] >= x_center - (x_size*o_r) and cmap[patch_id][1]-(size/2)/image.shape[1] <= x_center + (x_size*o_r):
+                            y_diff = (cmap[patch_id][0]+(size/2)/image.shape[0]) - y_center
+                            x_diff = (cmap[patch_id][1]+(size/2)/image.shape[1]) - x_center
                             euc = x_diff*x_diff + y_diff*y_diff
                             if distances[patch_id][index_encoding[label['category']]][0] > euc:
                                 distances[patch_id][index_encoding[label['category']]][0] = euc
@@ -101,9 +101,12 @@ if __name__ == "__main__":
     loader = BBD100K_Loader(True)
     color_map = generate_color_from_categories(loader.category_dict)
     for i in range(30, 31):
-        X, Y, image, cmap = loader.gather(i, 100, 150, 0.9)
+        X, Y, image, cmap = loader.gather(i, 50, 150, 0.1)
+        print(X.shape)
         if image is not None:
             print(color_map)
-            cv2.imshow('test', draw_from_label(image, Y, cmap, 150, color_map))
+            cv2.imshow('testY', draw_from_label(image, Y, cmap, 150, color_map, draw_patches=True))
+            cv2.imshow('testP', draw_patches(image, cmap, 150))
+            #cv2.imshow('test', draw_coordinate_map(image, cmap))
             cv2.waitKey()
     
