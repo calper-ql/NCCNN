@@ -17,7 +17,7 @@ For our model we combined and used regular tensorflow convolutional layers. Once
 
 ### Results
 
-Explains our results and **how** we did.
+(Pending as this is a continious project beyond our class.)
 
 ## Data
 
