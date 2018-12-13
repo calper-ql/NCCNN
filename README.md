@@ -39,13 +39,13 @@ Your file structure should look like:
 bdd100k/  
 |-- images/  
     |-- 10k
-        |-- image
-        |-- image
-        ...
+        |-- test/
+        |-- train/
+        |-- val/
     |-- 100k 
-        |-- image
-        |-- image
-        ...
+        |-- test/
+        |-- train/
+        |-- val/
 |-- labels/  
     |-- bdd100k_labels_images_train.json  
     |-- bdd100k_labels_images_val.json  
