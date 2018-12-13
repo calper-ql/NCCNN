@@ -25,6 +25,7 @@ class BBD100K_Loader:
         del self.category_dict['drivable area']
         del self.category_dict['lane']
         self.image_count = len(self.image_names)
+        self.indices = None
         
     def gather(self, index, stride, size, overlap_ratio):
         if len(self.raw_data) <= index:
@@ -44,7 +45,7 @@ class BBD100K_Loader:
             index_encoding[key] = count
             count += 1
         
-        extracted, cmap = sliding_window(image, stride, size)
+        extracted, cmap, self.indices = eager_sliding_window(image, stride, size, self.indices)
         cmap_orig = cmap.copy()
         cmap = np.reshape(cmap, [cmap.shape[0] * cmap.shape[1], 2])
         np_label = np.zeros([extracted.shape[0] * extracted.shape[1], count, 5])

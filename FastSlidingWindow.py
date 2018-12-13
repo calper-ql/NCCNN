@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 from client import *
 from Util import *
+import tensorflow as tf
 
 def sliding_axis_test(axis_size, stride, size):
     value = ((axis_size // stride) * stride + size) - axis_size 
@@ -58,6 +59,33 @@ def sliding_window(image, stride, size):
     extracted = np.reshape(extracted, [idx_map.shape[0], idx_map.shape[1], extracted.shape[1], extracted.shape[2], extracted.shape[3]])
     cmap = generate_coordinate_map(image.shape, stride, size)
     return extracted, cmap
+
+def eager_pad_image_to_fit_windows(image, stride, size):
+    width_test = sliding_axis_test(image.shape[0], stride, size)
+    height_test = sliding_axis_test(image.shape[1], stride, size)
+    padded = tf.pad(image, [[width_test//2, width_test//2], [height_test//2, height_test//2], [0, 0]])
+    return padded / 255.0
+
+def generate_gather_nd_sliding_window(img_shape, padded_shape, stride, size):
+    idx_map = generate_padded_index_map(img_shape, stride, size)
+    grid = np.indices(padded_shape[:-1])
+    fixed_grid = np.zeros([padded_shape[0], padded_shape[1], 2], dtype=np.int32)
+    fixed_grid[:, :, 0] = grid[0]
+    fixed_grid[:, :, 1] = grid[1]
+    def range_extract(x):
+        return fixed_grid[x[0]:x[0]+size, x[1]:x[1]+size]
+    idx_map_flat = np.reshape(idx_map, [idx_map.shape[0] * idx_map.shape[1], 2])
+    extracted = np.apply_along_axis(range_extract, axis=1, arr=idx_map_flat)
+    extracted = np.reshape(extracted, [idx_map.shape[0], idx_map.shape[1], extracted.shape[1], extracted.shape[2], 2])
+    return extracted
+
+def eager_sliding_window(image, stride, size, indices=None):
+    padded = eager_pad_image_to_fit_windows(image, stride, size)
+    if indices is None:
+        indices = generate_gather_nd_sliding_window(image.shape, padded.shape.as_list(), stride, size)
+    extracted = tf.gather_nd(padded, indices)
+    cmap = generate_coordinate_map(image.shape, stride, size)
+    return extracted, cmap, indices
 
 def shifted_reconstruct(extracted):
     r = np.zeros([extracted.shape[0]*extracted.shape[2], extracted.shape[1]*extracted.shape[3], extracted.shape[4]])
