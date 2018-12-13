@@ -33,6 +33,18 @@ For our model we combined and used regular tensorflow convolutional layers. Once
 
 Once the data set is downloaded to your local machine, place the images and labels from the download into the bdd100k directory.
 
+Your file structure should look like:
+
+bdd100k/
+|-- images/
+    |-- 10k
+    |-- 100k
+|-- labels/
+    |-- bdd100k_labels_images_train.json
+    |-- bdd100k_labels_images_val.json
+    
+(Note: because of a naming problem you might have to name the folder bbd100k - this will be fixed soon)
+
 ## How to Run
 
 Follow what's below here for installation and training examples.
