@@ -3,7 +3,7 @@ Neighboring Collaborative Convolutional Neural Networks
 
 Skip to [How to Run](#How-to-Run) Guide
 
-See our proposal for this project [here](docs/NCCNNproposal.pdf)
+See our proposal for this project [here](docs/proposal.pdf)
 
 ## About this project
 
@@ -27,7 +27,7 @@ Explains our results and **how** we did.
 
 ### Actual Data Sets used:
 
-[Berkeley DeepDrive](http://bdd-data.berkeley.edu/) : must create a log in to be able to download the data set
+[Berkeley DeepDrive](http://bdd-data.berkeley.edu/) *Must create a log in to be able to download the data set*
 
 Once the data set is downloaded to your local machine, place the images and labels from the download into the bdd100k directory.
 
