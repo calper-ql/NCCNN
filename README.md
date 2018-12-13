@@ -38,6 +38,7 @@ Follow what's below here for installation and training examples.
 ### Machine Requirements
 
 In order to run our code your machine must have the following:
+- Must have Jupyter Notebook installed (This can be done here: https://jupyter.readthedocs.io/en/latest/install.html)
 - 6GB CPU
 - (Optional) 6GB GPU if running with GPU for faster processing
 
