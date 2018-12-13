@@ -11,11 +11,13 @@ Combines K-Nearest Neighbors and Convolutional Neural Network (CNN) techniques w
 
 ### Methodology
 
-Explains our methods and **what** we did
+![methodology flow graph](img/methodollogy_dark.png)
+
+For our model we combined and used regular tensorflow convolutional layers. Once the layers encoded the image to a desired shape we used the tf.reshape, tf.gather_nd and tf.pad to implement our idea. 
 
 ### Results
 
-Explains our results and **how** we did.
+(Pending as this is a continious project beyond our class.)
 
 ## Data
 
