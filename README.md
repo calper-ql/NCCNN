@@ -35,13 +35,13 @@ Once the data set is downloaded to your local machine, place the images and labe
 
 Your file structure should look like:
 
-bdd100k/
-|-- images/
-    |-- 10k
-    |-- 100k
-|-- labels/
-    |-- bdd100k_labels_images_train.json
-    |-- bdd100k_labels_images_val.json
+bdd100k/  
+|-- images/  
+    |-- 10k  
+    |-- 100k  
+|-- labels/  
+    |-- bdd100k_labels_images_train.json  
+    |-- bdd100k_labels_images_val.json  
     
 (Note: because of a naming problem you might have to name the folder bbd100k - this will be fixed soon)
 
