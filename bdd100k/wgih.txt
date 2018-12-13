@@ -1,0 +1,5 @@
+What Goes In Here .txt
+
+Please put all images from the downloaded data set into the images folder, and all labels from the downloaded data set into the labels folder.
+
+Thank you.

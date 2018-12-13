@@ -114,4 +114,5 @@ validation_data
 train_data
 dict_data.pkl
 
-bbd100k
+bdd100k/images
+bdd100k/labels
