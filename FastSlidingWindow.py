@@ -85,6 +85,7 @@ def eager_sliding_window(image, stride, size, indices=None):
         indices = generate_gather_nd_sliding_window(image.shape, padded.shape.as_list(), stride, size)
     extracted = tf.gather_nd(padded, indices)
     cmap = generate_coordinate_map(image.shape, stride, size)
+    extracted = tf.to_float(extracted)
     return extracted, cmap, indices
 
 def shifted_reconstruct(extracted):
